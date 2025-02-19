@@ -1,0 +1,41 @@
+name: CI/CD Pipeline
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Configurar ambiente (exemplo Node.js)
+        uses: actions/setup-node@v18
+        with:
+          node-version: 18
+
+      - name: Instalar dependências
+        run: npm install
+
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      - name: Rodar testes (exemplo Jest)
+        run: npm test
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulação de deploy
+        run: echo "Deploy realizado com sucesso!"
